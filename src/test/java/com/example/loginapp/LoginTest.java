@@ -12,7 +12,7 @@ public class LoginTest {
 
     @Test
     public void testLogin() {
-        System.setProperty("webdriver.chrome.driver", "/path/to/chromedriver"); // Set this to your ChromeDriver path
+        System.setProperty("webdriver.chrome.driver", "/usr/bin/chromedriver"); // Set this to your ChromeDriver path
         WebDriver driver = new ChromeDriver();
         
         driver.get("http://localhost:8080/login");
