@@ -35,11 +35,13 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y google-chrome-stable
-          sudo apt-get install -y chromium-chromedriver
-          # Check if chromedriver symbolic link already exists before creating it
-          if [ ! -f /usr/bin/chromedriver ]; then
-            sudo ln -s /usr/lib/chromium-browser/chromedriver /usr/bin/chromedriver
-          fi
+          # Automatically download correct chromedriver version for installed chrome
+          CHROME_VERSION=$(google-chrome --version | grep -oP '\d+\.\d+\.\d+')
+          CHROMEDRIVER_VERSION=$(curl -s "https://chromedriver.storage.googleapis.com/LATEST_RELEASE_$CHROME_VERSION")
+          wget -N https://chromedriver.storage.googleapis.com/$CHROMEDRIVER_VERSION/chromedriver_linux64.zip
+          unzip chromedriver_linux64.zip
+          sudo mv chromedriver /usr/bin/chromedriver
+          sudo chmod +x /usr/bin/chromedriver
 
       # Build the project with Maven
       - name: Build with Maven
